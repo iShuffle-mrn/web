@@ -33,7 +33,7 @@
 	<!-- Main -->
 	<main>
 		<div id="uploadForm">
-			<form action="/action_page.php">
+			<form action="upload.php" method="post" enctype="multipart/form-data">
 				<div id="rightForm">
 					<p><label for="file">בחירת קובץ המבחן</label><input type="file" name="file" id="file" class="inputfile" required/></p>
 					<p class="fileUploadInstractions">אנא העלה קובץ מסוג PDF בלבד</p>
@@ -57,7 +57,7 @@
 					<p><label>מס' תשובות לשאלה: <input type="text" name="numOfAnswers" required></label></p>
 				</div>
 				<div class="clear">
-					<input type="submit" id="uploadButton" value="לחץ להעלאה">
+					<input type="submit" id="uploadButton" value="לחץ להעלאה" name="submit">
 				</div>
 			</form> 
 		</div>
