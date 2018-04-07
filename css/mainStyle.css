@@ -1,0 +1,44 @@
+*{
+	font-family:calibri;
+	direction: rtl;
+	font-size: 16px;
+}
+
+body{
+	height: 100vh;
+	margin: 0;
+}
+
+header{
+	height: 25%;
+	width: 100;
+	text-align: center;
+	font-size: 16px;
+	color: #3759b2;
+	overflow: hidden;
+}
+
+header img{
+	width: 20%;
+}
+
+header p{
+	margin-top: 0px;
+	margin-bottom: 5%;
+}
+
+main{
+	margin: 0 auto;
+	height: 75%;
+	width: 95%;
+    background-size: 15%;
+	overflow: hidden;
+}
+
+#tape{
+	position: absolute;
+	top: 23%;
+	left: 46%;
+	width: 8%;
+	opacity: 0.5;
+}

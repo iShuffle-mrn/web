@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>iShuffle - למידה למבחנים רב ברירתיים</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Local CSS -->
+	<link rel="stylesheet" type="text/css" href="..\css\upload.css">
+	<link rel="stylesheet" type="text/css" href="..\css\mainStyle.css">
+	
+	<!-- Bootstap links -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- JS+JQ scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+</head>
+<body>
+
+<!-- Page Content -->
+
+	<!-- Header -->
+	<header>
+		<img src="../pic/logo.png">
+		<p>סיוע בלמידה למבחנים רב- ברירתיים</p>
+		<img id="tape" src="../pic/tape.png">
+	</header>
+	
+
+	<!-- Main -->
+	<main>
+		<div id="uploadForm">
+			<form action="/action_page.php">
+				<div id="rightForm">
+					<p><label for="file">בחירת קובץ המבחן</label><input type="file" name="file" id="file" class="inputfile" required/></p>
+					<p class="fileUploadInstractions">אנא העלה קובץ מסוג PDF בלבד</p>
+					<p><label>שם הקורס: <input type="text" name="course" required autocomplete="on"	></label></p>
+					<p><label>תאריך הבחינה: <input type="date" id="date" required></label></p>
+				</div>
+				<div id="leftForm">
+					<p><label>מועד: 
+						<select id="moed" required>
+							<option>א</option>
+							<option>ב</option>
+							<option>ג</option>
+						</select></label></p>
+					<p><label>סמסטר:
+						<select id="semester" required>
+							<option>א</option>
+							<option>ב</option>
+							<option>קיץ</option>
+						</select></label></p>
+					<p><label>מס' שאלות במבחן: <input type="text" name="numOfQuestions" required></label></p>
+					<p><label>מס' תשובות לשאלה: <input type="text" name="numOfAnswers" required></label></p>
+				</div>
+				<div class="clear">
+					<input type="submit" id="uploadButton" value="לחץ להעלאה">
+				</div>
+			</form> 
+		</div>
+		<a href="../index.html" id="homeButton">למסך הראשי</a>
+	</main>
+	
+	
+	<!-- Footer -->
+
+
+
+</body>
+</html>
