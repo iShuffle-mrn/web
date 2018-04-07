@@ -1,12 +1,19 @@
 <?php
-$target_dir = "../PDFconvertor/";
+$target_dir = "/home/ronipe/public_html/PDFconvert/";
 $target_file = $target_dir . basename($_FILES["file"]["name"]);
-$ok=1;
 $file_type=$_FILES['file']['type'];
+
 if ($file_type=="application/pdf") {
-    if(move_uploaded_file($_FILES['file']['tmp_name'], $targetfolder))
+    
+    $ext=explode('.',$_FILES['file']['name']);
+    $extension = $ext[1];
+    $newname='Input';
+    $target_file=$target_dir.$newname.'.'.$extension;
+    
+    if(move_uploaded_file($_FILES["file"]["tmp_name"], $target_file))
     {
-    echo "The file ". basename( $_FILES['file']['name']). " is uploaded";
+    echo "The file is uploaded";
+
     }
     else {
     echo "Problem uploading file";
@@ -14,7 +21,7 @@ if ($file_type=="application/pdf") {
 }
 else {
  echo "You may only upload PDFs.<br>";
-
 }
+
 
 ?>
