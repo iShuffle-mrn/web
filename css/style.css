@@ -47,6 +47,7 @@ main{
 	text-align: right;
 	color: white;
 	margin-top: 15px;
+	overflow: auto;
 }
 
 #course h3{display: inline}
