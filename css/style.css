@@ -4,7 +4,7 @@ main{
 
 #uploadTest{
 	width: 25%;
-	height: 70%;
+	height: 75%;
 	float: left;
 	text-align: center;
 	border-radius: 5px;
@@ -24,19 +24,27 @@ main{
 #uploadLink:hover{text-decoration: none; font-weight: bold;}
 
 #uploadTest img{
-	width: 85%;
+	height: 75%;
 }
 
 .myCourses{
 	margin-top:0px;
 }
 
-#courses{
+#content{
 	width: 50%;
-	height: 70%;
+	height: 83%;
 	text-align: right;
 	float: left;
 	margin: 3% 0px 0px 0px;
+	
+}
+
+#courses{
+	overflow-y: scroll;
+	height: 80%;
+	direction: ltr;
+	padding-right: 15px;
 }
 
 #course{
@@ -47,7 +55,6 @@ main{
 	text-align: right;
 	color: white;
 	margin-top: 15px;
-	overflow: auto;
 }
 
 #course h3{display: inline}
@@ -59,6 +66,7 @@ main{
 	width: 80%;
 	text-align: right;
 	padding: 10px;
+	padding-top: 20px;
 	margin-bottom: 5px;
 }
 
@@ -68,3 +76,18 @@ main{
 
 .exercise, .onlineTest{text-decoration: none; font-weight: bold}
  
+ /* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ffe891; 
+    border-radius: 10px;
+}

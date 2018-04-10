@@ -12,6 +12,7 @@
 	
 	<!-- Bootstap links -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Heebo" rel="stylesheet">
 	
 	<!-- JS+JQ scripts -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -35,8 +36,7 @@
 		<div id="uploadForm">
 			<form action="upload.php" method="post" enctype="multipart/form-data">
 				<div id="rightForm">
-					<p><label for="file">בחירת קובץ המבחן</label><input type="file" name="file" id="file" class="inputfile" required/></p>
-					<p class="fileUploadInstractions">אנא העלה קובץ מסוג PDF בלבד</p>
+					<p><label for="file"><img id="formPic" src="../pic/formpic.png"></label><input type="file" name="file" id="file" class="inputfile" required/></p>
 					<p><label>שם הקורס: <input type="text" name="course" required autocomplete="on"	></label></p>
 					<p><label>תאריך הבחינה: <input type="date" id="date" required></label></p>
 				</div>
