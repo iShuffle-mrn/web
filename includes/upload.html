@@ -12,6 +12,8 @@
 	
 	<!-- Bootstap links -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- Font link -->
 	<link href="https://fonts.googleapis.com/css?family=Heebo" rel="stylesheet">
 	
 	<!-- JS+JQ scripts -->
@@ -66,9 +68,28 @@
 	</main>
 	
 	
-	<!-- Footer -->
+	<!-- Script -->
+	<script>
+		var inputs = document.querySelectorAll( '.inputfile' );
+		Array.prototype.forEach.call( inputs, function( input )
+		{
+			var label	 = input.nextElementSibling,
+				labelVal = label.innerHTML;
 
+			input.addEventListener( 'change', function( e )
+			{
+				var fileName = '';
+				if( this.files && this.files.length > 1 )
+					fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+				else
+					fileName = e.target.value.split( '\\' ).pop();
 
-
+				if( fileName )
+					label.querySelector( 'span' ).innerHTML = fileName;
+				else
+					label.innerHTML = labelVal;
+			});
+		});
+	</script>
 </body>
 </html>

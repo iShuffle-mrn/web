@@ -27,6 +27,10 @@ main{
 	height: 75%;
 }
 
+#uploadTest img:hover{
+	opacity:0.9;
+}
+
 .myCourses{
 	margin-top:0px;
 }
