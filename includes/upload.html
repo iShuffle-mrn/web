@@ -36,7 +36,8 @@
 		<div id="uploadForm">
 			<form action="upload.php" method="post" enctype="multipart/form-data">
 				<div id="rightForm">
-					<p><label for="file"><img id="formPic" src="../pic/formpic.png"></label><input type="file" name="file" id="file" class="inputfile" required/></p>
+					<p><label for="file"><img id="formPic" class="pointer" src="../pic/formpic.png"></label>
+						<input type="file" name="file" id="file" class="inputfile" accept=".pdf" required/></p>
 					<p><label>שם הקורס: <input type="text" name="course" required autocomplete="on"	></label></p>
 					<p><label>תאריך הבחינה: <input type="date" id="date" required></label></p>
 				</div>
@@ -57,7 +58,7 @@
 					<p><label>מס' תשובות לשאלה: <input type="text" name="numOfAnswers" required></label></p>
 				</div>
 				<div class="clear">
-					<input type="submit" id="uploadButton" value="לחץ להעלאה" name="submit">
+					<input type="submit" id="uploadButton" class="pointer" value="לחץ להעלאה" name="submit">
 				</div>
 			</form> 
 		</div>

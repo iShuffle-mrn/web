@@ -44,6 +44,10 @@ input, select {background-color: #ffeeec; border: none; border-radius: 5px; font
 
 #formPic{ width: 78%;}
 
+#formPic:hover{ opacity: 0.5}
+
+.pointer {cursor: pointer;}
+
 #uploadButton{
 	margin: 0 auto;
 	background-color: #ff8c62 ;
