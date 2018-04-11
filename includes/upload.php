@@ -4,19 +4,18 @@ $db = mysql_connect('localhost','1','2');
 mysql_select_db('mydb',$db);
 mysql_query("SET NAMES 'utf8'",$db);
 
-	$servername = "ronipe.mtacloud.co.il";
-	$username = "ronipe";
-	$password = "XgU+2dSlXNJW";
-	$dbname = "ronipe_ishuffle";
+$servername = "ronipe.mtacloud.co.il";
+$username = "ronipe";
+$password = "XgU+2dSlXNJW";
+$dbname = "ronipe_ishuffle";
 
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-	
-	// Check connection
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	} 
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
+// Check connection
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+} 
 
 $target_dir = "/home/ronipe/public_html/PDFconvert/";
 $target_file = $target_dir . basename($_FILES["file"]["name"]);

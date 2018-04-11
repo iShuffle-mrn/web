@@ -1,0 +1,47 @@
+main{
+	background-image:url("../pic/background3.png");
+	background-size: 70%;
+}
+
+#connectionForm{
+	border-radius: 5px;
+	background-color: white;
+	box-shadow: 10px 10px #808080;
+	width: 40%;
+	overflow: hidden;
+	text-align: right;
+	padding: 30px 0px;
+	margin: 5%  auto 0;
+	text-align: left;
+	padding: 3% 3%;
+}
+
+
+#connectionButton{
+	margin: 0 auto;
+	background-color: #ff8c62 ;
+	color: white;
+	box-shadow: 5px 5px #ffeeec;
+	border-radius: 10px;
+	padding: 8px 15px;
+	border: none;
+}
+
+#connectionButton:hover{background-color: #ff6d38}
+	
+#homeButton{
+	height: 7%;
+	float: left;
+	border-radius: 5px;
+    padding: 10px;
+    background-color: #ffde5f;
+    box-shadow: 5px 5px #dbba3b;
+	margin: 3% 0px 0px 15%;
+	border: none;
+	color: white;
+	font-size: 28px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#homeButton:hover{background-color: #eee1af}
