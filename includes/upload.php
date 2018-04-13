@@ -4,7 +4,7 @@
 	mysql_select_db('mydb',$db);
 	mysql_query("SET NAMES 'utf8'",$db);
 
-	$servername = "ronipe.mtacloud.co.il";
+	$servername = "mtapanel.mtacloud.co.il";
 	$username = "ronipe";
 	$password = "XgU+2dSlXNJW";
 	$dbname = "ronipe_ishuffle";
@@ -49,8 +49,8 @@
 	 echo "You may only upload PDFs.<br>";
 	}
 
-	$sql = "INSERT INTO MyGuests (firstname, lastname, email)
-	VALUES ('John', 'Doe', 'john@example.com')";
+	$sql = "INSERT INTO tests (course, year, moed, semester, numOfQuestions, numOfAnswers)
+	VALUES (.$course., .$year., .$moed., .$semester., .$numOfQuestions., .$numOfAnswers.)";
 
 	if ($conn->query($sql) === TRUE) {
 		echo "New record created successfully";
