@@ -55,6 +55,7 @@ input, select {background-color: #ffeeec; border: none; border-radius: 5px; font
 	box-shadow: 5px 5px #ffeeec;
 	border-radius: 10px;
 	padding: 8px 15px;
+    border: none;
 }
 
 #uploadButton:hover{background-color: #ff6d38}

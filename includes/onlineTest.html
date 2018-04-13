@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>iShuffle - למידה למבחנים רב ברירתיים</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Local CSS -->
+	<link rel="stylesheet" type="text/css" href="..\css\onlineTest.css">
+	<link rel="stylesheet" type="text/css" href="..\css\mainStyle.css">
+	
+	<!-- Bootstap links -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- Font link -->
+	<link href="https://fonts.googleapis.com/css?family=Heebo" rel="stylesheet">
+	
+	<!-- JS+JQ scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+</head>
+<body>
+
+<!-- Page Content -->
+
+	<!-- Header -->
+	<header>
+		<img src="../pic/logo.png">
+		<p>סיוע בלמידה למבחנים רב- ברירתיים</p>
+		<img id="tape" src="../pic/tape.png">
+	</header>
+	
+
+	<!-- Main -->
+	<main>
+		<div id="aside">
+            <h1>מצב מבחן</h1>
+            <h4>השאלות:</h4>
+            <div id="qNumbers">
+                <div class="qRow">
+                    <a href="#" class="qNum">1</a>
+                    <a href="#" class="qNum">2</a>
+                    <a href="#" class="qNum">3</a>
+                    <a href="#" class="qNum">4</a>
+                </div>
+                <div class="qRow">
+                    <a href="#" class="qNum">5</a>
+                    <a href="#" class="qNum">6</a>
+                    <a href="#" class="qNum">7</a>
+                    <a href="#" class="qNum">8</a>
+                </div>
+                <div class="qRow">
+                    <a href="#" class="qNum">9</a>
+                    <a href="#" class="qNum">10</a>
+                    <a href="#" class="qNum">11</a>
+                    <a href="#" class="qNum">12</a>
+                </div>
+                <div class="qRow">
+                    <a href="#" class="qNum">13</a>
+                    <a href="#" class="qNum">14</a>
+                    <a href="#" class="qNum">15</a>
+                    <a href="#" class="qNum">16</a>
+                </div>
+                <div class="qRow">
+                    <a href="#" class="qNum">17</a>
+                    <a href="#" class="qNum">18</a>
+                    <a href="#" class="qNum">19</a>
+                    <a href="#" class="qNum">20</a>
+                </div>
+            </div>
+        </div>
+        <div id="testForm">
+			<form action="test.php" method="post" enctype="multipart/form-data">
+				<h2>שאלה מס' 1</h2>
+                
+                <h4><label for="question1">הרכב ועדת המכרזים: </label></h4>
+                <p><input name="question1" type="radio" id="answer1_1" value="1" >קבוע.</p>
+                <p><input name="question1" type="radio" id="answer1_2" value="2">תמיד משתנה.</p>
+                <p><input name="question1" type="radio" id="answer1_3" value="3" checked>קבוע ומשתנה בהתאם לבעלי התפקידים ואופי המכרז.</p>
+                <p><input name="question1" type="radio" id="answer1_4" value="4">משתה מועדה לועדה על פי הנושאים הנדונים.</p>
+
+            </form> 
+		</div>
+        <div>
+
+            <a href="../index.html" id="homeButton">למסך הראשי</a>
+        </div>
+		
+	</main>
+
+</body>
+</html>
