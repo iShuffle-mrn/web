@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	
 	<!-- Local CSS -->
 	<link rel="stylesheet" type="text/css" href="..\css\upload.css">
@@ -38,20 +39,22 @@
 		<div id="uploadForm">
 			<form action="upload.php" method="post" enctype="multipart/form-data">
 				<div id="rightForm">
-					<p><label for="file"><img id="formPic" class="pointer" src="../pic/formpic.png"></label>
-						<input type="file" name="file" id="file" class="inputfile" accept=".pdf" required></p>
+					<p>
+					    <input type="file" name="file" id="file" class="inputfile" accept=".pdf" required>
+					    <label for="file"><span class="span"><img id="formPic" class="pointer" src="../pic/formpic.png"></span></label>
+						</p>
 					<p><label>שם הקורס: <input type="text" name="course" required autocomplete="on"	></label></p>
 					<p><label>שנת הבחינה: <input type="number" name="year" placeholder="YYYY" min="2010" max="2020" required></label></p>
 				</div>
 				<div id="leftForm">
 					<p><label>מועד: 
-						<select id="moed" required>
+						<select id="moed" name="moed" required>
 							<option>א</option>
 							<option>ב</option>
 							<option>ג</option>
 						</select></label></p>
 					<p><label>סמסטר:
-						<select id="semester" required>
+						<select id="semester" name="semester" required>
 							<option>א</option>
 							<option>ב</option>
 							<option>קיץ</option>
@@ -70,26 +73,12 @@
 	
 	<!-- Script -->
 	<script>
-		var inputs = document.querySelectorAll( '.inputfile' );
-		Array.prototype.forEach.call( inputs, function( input )
-		{
-			var label	 = input.nextElementSibling,
-				labelVal = label.innerHTML;
-
-			input.addEventListener( 'change', function( e )
+		document.getElementById("file").addEventListener('change', function(e)
 			{
-				var fileName = '';
-				if( this.files && this.files.length > 1 )
-					fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-				else
-					fileName = e.target.value.split( '\\' ).pop();
-
-				if( fileName )
-					label.querySelector( 'span' ).innerHTML = fileName;
-				else
-					label.innerHTML = labelVal;
+				var fileName = document.getElementById("file").value.split( '\\' ).pop();
+					document.querySelector('.span').innerHTML = fileName;
+					document.querySelector('.span').style.cssText="color: black; font-family:Heebo; font-size:16px; background-color: #ffeeec; border: 5px solid #ffeeec;border-radius:5px;font-weight:normal;outline:none";
 			});
-		});
 	</script>
 </body>
 </html>
