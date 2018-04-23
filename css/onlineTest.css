@@ -58,7 +58,15 @@ main{
 
 .qNum:hover{background-color: #fefbd8;}
 
-.qNum:active{background-color: #b6f3e8;}
+#next, #prev {
+    color: black;
+    display: inline-block;
+    font-size:36px;
+}
+
+#next{float: left;}
+
+#prev{float: right}
 
 #homeButton{
 	height: 7%;
