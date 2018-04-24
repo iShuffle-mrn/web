@@ -6,14 +6,20 @@ main{
 	border-radius: 5px;
 	background-color: white;
 	box-shadow: 10px 10px #808080;
-	width: 40%;
+	width: 44%;
 	overflow: hidden;
 	text-align: right;
-	padding: 30px 0px;
 	margin: 5%  auto 0;
 	text-align: left;
 	padding: 3% 3%;
 }
+
+lable{
+    font-size: 17px;
+    font-weight: none;
+}
+
+#uploadIcon{display: none}
 
 #rightForm{float: right; width: 50%;}
 
@@ -46,6 +52,16 @@ input, select {background-color: #ffeeec; border: none; border-radius: 5px; font
 
 #formPic:hover{ opacity: 0.5}
 
+.newSpan{
+    color: black;
+    font-weight:bold;
+    direction: ltr;
+    padding: 2px 10px;
+    display: inline-block;
+    border: 0.6px solid black;
+    border-radius:5px;
+}
+
 .pointer {cursor: pointer;}
 
 #uploadButton{
@@ -61,7 +77,6 @@ input, select {background-color: #ffeeec; border: none; border-radius: 5px; font
 #uploadButton:hover{background-color: #ff6d38}
 	
 #homeButton{
-	height: 7%;
 	float: left;
 	border-radius: 5px;
     padding: 10px;

@@ -17,7 +17,7 @@ header{
 	overflow: hidden;
 }
 
-header img{
+#logo{
 	width: 20%;
 }
 
@@ -34,6 +34,33 @@ main{
 	overflow: hidden;
 }
 
+#welcome{
+    text-align: right;
+    position: absolute;
+    color: black;
+    top:120px;
+    right:0;
+    padding: 5px 40px;
+}
+
+#welcome h4{
+    display: inline-block;
+}
+
+#profile{
+    width: 7%;
+    border-radius: 50%;
+}
+
+header a{
+    color: #e77587;
+    font-weight: bold;
+}
+
+header a:hover{
+    color: #e77587;
+    
+}
 #tape{
 	position: absolute;
 	top: 23%;
