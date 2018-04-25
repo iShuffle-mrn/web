@@ -42,18 +42,23 @@
 		<img id="tape" src="../pic/tape.png">
         <div id="welcome">
             <img id="profile" src="<?php echo $_SESSION['picture'] ?>">
-            <h4>ברוך/ה הבא/ה <?php echo $_SESSION['givenName'] ?> |  
-            <a href="../glogin/logout.php" id="signOutButton">החלף משתמש</a></h4>
+            <?php
+                if ($_SESSION['gender'] == "female"){
+                    echo '<h4>ברוכה הבאה '. $_SESSION['givenName'] .' | <a href="../glogin/logout.php" id="signOutButton">התנתקי</a></h4>';
+                }
+                else{
+                    echo '<h4>ברוך הבא '. $_SESSION['givenName'] .' | <a href="../glogin/logout.php" id="signOutButton">התנתק</a></h4>';
+                }
+            ?>
         </div>
 	</header>
-	
 
 	<!-- Main -->
 	<main>
 		<div id="uploadForm">
 
-<?php header('Content-Type: text/html; charset=utf-8'); 
-
+<?php header('Content-Type: text/html; charset=utf-8');          
+                 
 	$servername = "localhost";
 	$username = "root";
 	$password = "Fss2d%^4D";
@@ -100,20 +105,37 @@
 	else {
 	 echo "You may only upload PDFs.<br>";
 	}
-
-
-$sql="INSERT INTO tests (course,year,moed,semester,numOfQuestions,numOfAnswers) VALUES ('".$course."','".$year."','".$moed."','".$semester."','".$numOfQuestions."','".$numOfAnswers."');";
+                 
+    $user_email = $_SESSION["email"]; 
     
-    $result=$conn->query($sql);
+    $sql = "SELECT * FROM users_in_courses WHERE user_email='$user_email' AND course_name='$course'";   
+    $result = $conn->query($sql);
+                 
+    if($result->num_rows == 0){ //if user not exist
+        $sql1="INSERT INTO users_in_courses (course_name, user_email) VALUES ('$course', '$user_email');";
+        $result=$conn->query($sql1);
+        $last_course_id = $conn->insert_id;
+    }
+    else{
+        while($row = $result->fetch_assoc()) {
+            $last_course_id = $row['course_id'];
+        }
+    }
+                 
+    $sql2="INSERT INTO tests (course_id,year,moed,semester,numOfQuestions,numOfAnswers) VALUES ('$last_course_id','$year','$moed','$semester','$numOfQuestions','$numOfAnswers');";
+    
+    $result=$conn->query($sql2);
     
     
     if ($result===TRUE){
         $last_id = $conn->insert_id;
         $file_name = $last_id.'.json';
         
-//        $output = shell_exec('cd /var/www/html/web/PDFconvertor/tests/; mv outputjson.json '.$file_name);
-//        $sql="INSERT INTO tests (test_directory) WHERE test_id=$last_id VALUES ('/var/www/html/web/PDFconvertor/tests/$file_name');";
-//        $result=$conn->query($sql);
+        $output = shell_exec('cd /var/www/html/web/PDFconvertor/tests/; mv ../outputjson.json '.$file_name);
+        $file_name = '/var/www/html/web/PDFconvertor/tests/'.$file_name;
+        
+        $sql="UPDATE tests set test_directory='$file_name' WHERE test_id=$last_id";
+        $result=$conn->query($sql);
     }
     else{
         echo "Error: ". $sql. "<br>" . $conn->error;

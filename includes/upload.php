@@ -42,8 +42,14 @@
 		<img id="tape" src="../pic/tape.png">
         <div id="welcome">
             <img id="profile" src="<?php echo $_SESSION['picture'] ?>">
-            <h4>ברוך/ה הבא/ה <?php echo $_SESSION['givenName'] ?> |  
-            <a href="../glogin/logout.php" id="signOutButton">החלף משתמש</a></h4>
+            <?php
+                if ($_SESSION['gender'] == "female"){
+                    echo '<h4>ברוכה הבאה '. $_SESSION['givenName'] .' | <a href="../glogin/logout.php" id="signOutButton">התנתקי</a></h4>';
+                }
+                else{
+                    echo '<h4>ברוך הבא '. $_SESSION['givenName'] .' | <a href="../glogin/logout.php" id="signOutButton">התנתק</a></h4>';
+                }
+            ?>
         </div>
 	</header>
 	

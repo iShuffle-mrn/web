@@ -97,8 +97,28 @@ main{
 	font-size: 28px;
 	font-weight: bold;
 	text-decoration: none;
-    margin-right: 5%;
-    margin-top: 28%;
+    margin-right: 7%;
+    margin-top: 20%;
 }
 
 #homeButton:hover{background-color: #eee1af}
+
+#countdownExample{
+    margin-right: 8%;
+    margin-top: 3%;
+    display: inline-block;
+    font-size: 25px;
+    padding: 11px 14px;
+    padding-right: 36px;
+    border: 5px solid #4ddcd6;
+    border-radius: 36px;
+    background: white;
+    font-weight: bold;
+}
+
+#clock{
+    position: relative;
+    width: 5%;
+    left: 186px;
+    top: -4px;
+}

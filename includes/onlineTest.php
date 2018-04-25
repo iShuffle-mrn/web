@@ -1,5 +1,13 @@
+<!--
+
+2 rows question
+what if there ia an answer with two or 3 options?
+-->
 <?php
 	session_start();
+//    ini_set('display_errors', 1);
+//    ini_set('display_startup_errors', 1);
+//    error_reporting(E_ALL);
 
 	if (!isset($_SESSION['access_token'])) {
 		header('Location: glogin/login.php');
@@ -28,6 +36,7 @@
 	<!-- JS+JQ scripts -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="node_modules\easytimer\dist\easytimer.min.js"></script>
 	
 </head>
 <body onload="questionBar()">
@@ -41,44 +50,74 @@
 		<img id="tape" src="../pic/tape.png">
         <div id="welcome">
             <img id="profile" src="<?php echo $_SESSION['picture'] ?>">
-            <h4>ברוך/ה הבא/ה <?php echo $_SESSION['givenName'] ?> |  
-            <a href="../glogin/logout.php" id="signOutButton">החלף משתמש</a></h4>
+            <?php
+                if ($_SESSION['gender'] == "female"){
+                    echo '<h4>ברוכה הבאה '. $_SESSION['givenName'] .' | <a href="../glogin/logout.php" id="signOutButton">התנתקי</a></h4>';
+                }
+                else{
+                    echo '<h4>ברוך הבא '. $_SESSION['givenName'] .' | <a href="../glogin/logout.php" id="signOutButton">התנתק</a></h4>';
+                }
+            ?>
         </div>
 	</header>
 
 	<!-- Main -->
 	<main>
         
-        <?php
+    <?php
+    $test_id= $_GET['test_id'];
+    $course_name= $_GET['course_name'];
 
+    $servername = "localhost";
+    $username = "root";
+    $password = "Fss2d%^4D";
+    $dbname = "ishuffle";
+
+    //create connection
+    $conn= new mysqli($servername,$username,$password,$dbname);
+    //check connection
+    if($conn->connect_error){
+        die("Connection failed: ". $conn->connect_error);
+    }
+    
+    $conn->set_charset("utf8");
+                 
+    $sql = "SELECT * FROM tests WHERE test_id='$test_id'";   
+    $result = $conn->query($sql);
+    while($row = $result->fetch_assoc()) {
+        $year = $row['year'];
+        $moed = $row['moed'];
+        $semester = $row['semester'];
+        $numOfQuestions = $row['numOfQuestions'];
+        $numOfAnswers = $row['numOfAnswers'];
+        $test_directory = $row['test_directory'];
+    }
+        
         // Read JSON file
-         $json = file_get_contents('../PDFconvertor/output2-json.json');
-
+         $json = file_get_contents($test_directory);
 
         //Decode JSON
          $json_data = json_decode($json,true);
+    
 
-         ?>
+		echo '<div id="aside"><h1>מצב מבחן</h1>';
+            echo '<h5>'.$course_name.'</h5>';
+            echo '<h5>מועד '. $moed.', סמסטר '.$semester.', '.$year.'</h5>';
         
-		<div id="aside">
-            <h1>מצב מבחן</h1>
-            <h5>כלים משפטיים</h5>
-            <h5>מועד א', סמסטר ב', 2016</h5>
-            <h4>השאלות:</h4>
-            <div id="qNumbers">
+            echo '<h4>השאלות:</h4>';
+            echo '<div id="qNumbers">';
      
-            </div>
-        </div>
-        <div id="testForm">
-			<form id=FormTest action="post">
-				<?php
-                //*****select from db
-                    $numOfQuestions=20;
-                    $numOfAnswers=4;
-                    $wholeQuestion=1;
-                    $QuestionOrAnswer=0;
+            echo '</div></div>';
+        
+        echo '<div id="testForm">';
+			echo '<form id=FormTest action="post">';
+
+
                     $question=1;
-                    $answer=0;
+                    $randomNum=randomizer();
+                    $temp=$json_data['answer'.$question.'_0'][0]; //keeps answer a in temp
+                    $json_data['answer'.$question.'_0'][0]=$json_data['answer'.$question.'_'.$randomNum][0];
+                    $json_data['answer'.$question.'_'.$randomNum][0]= $temp;
 
                 
                 echo "<div id='question".$question."'><h2>שאלה מס' ".$question."</h2><h4><label for='question".$question."'>".$json_data['question'.$question][1]."</label></h4><div id='answers".$question."'>";
@@ -90,6 +129,11 @@
                     
 
                     for($question=2;$question<=$numOfQuestions;$question++){
+                         $randomNum2=randomizer();
+                        $temp2=$json_data['answer'.$question.'_0'][0];
+                        $json_data['answer'.$question.'_0'][0]=$json_data['answer'.$question.'_'.$randomNum2][0];
+                        $json_data['answer'.$question.'_'.$randomNum2][0]=$temp2;
+
                         
                         echo "<div id='question".$question."' style='display:none'><h2>שאלה מס' ".$question."</h2><h4><label for='question".$question."'>".$json_data['question'.$question][1]."</label></h4><div id='answers".$question."'style='display:none'>";
                         for($answer=0;$answer<$numOfAnswers;$answer++){
@@ -98,17 +142,25 @@
                         echo "</div>";
                          echo "</div>";
                     } 
-                    
                 
-                ?>
+                    function randomizer() {
+                        //change it to the number of answers
+                        $x=rand(0,3);
+                        return $x;
+                    }
+                
+                
 
-                <a id="next" href="#" onclick="next()"><i class="fa fa-angle-left"></i></a>
-                <a id="prev" href="#" onclick="prev()" style="display:none"><i class="fa fa-angle-right"></i></a>
+                echo '<a id="next" href="#" onclick="next()"><i class="fa fa-angle-left"></i></a>';
+                echo '<a id="prev" href="#" onclick="prev()" style="display:none"><i class="fa fa-angle-right"></i></a>';
                 
-            </form> 
-		</div>
+            echo '</form></div>';
+        ?>
         <div>
-
+            <div id="countdownExample">
+                <div class="values"></div>
+            </div>
+            <img id="clock" src="../pic/stopwatch.png">
             <a href="../index.php" id="homeButton">למסך הראשי</a>
         </div>
 		
@@ -218,7 +270,19 @@
 
         }
   
+    var timer = new Timer();
+    timer.start({countdown: true, startValues: {seconds: 1000}});
+    $('#countdownExample .values').html(timer.getTimeValues().toString());
+    timer.addEventListener('secondsUpdated', function (e) {
+        $('#countdownExample .values').html(timer.getTimeValues().toString());
+    });
+    timer.addEventListener('targetAchieved', function (e) {
+        $('#countdownExample .values').html('KABOOM!!');
+    });
         
+        
+        
+    
     </script>
 
 </body>

@@ -42,8 +42,14 @@
 		<img id="tape" src="pic/tape.png">
         <div id="welcome">
             <img id="profile" src="<?php echo $_SESSION['picture'] ?>">
-            <h4>ברוך/ה הבא/ה <?php echo $_SESSION['givenName'] ?> |  
-            <a href="glogin/logout.php" id="signOutButton">החלף משתמש</a></h4>
+            <?php
+                if ($_SESSION['gender'] == "female"){
+                    echo '<h4>ברוכה הבאה '. $_SESSION['givenName'] .' | <a href="glogin/logout.php" id="signOutButton">התנתקי</a></h4>';
+                }
+                else{
+                    echo '<h4>ברוך הבא '. $_SESSION['givenName'] .' | <a href="glogin/logout.php" id="signOutButton">התנתק</a></h4>';
+                }
+            ?>
         </div>
 	</header>
 	
@@ -58,36 +64,57 @@
 		<div id="content">
 			
 			<h2 class="myCourses">הקורסים שלי:</h2>
+            <div id="courses">
                 
-			<div id="courses">
-				<div>
-				  <button id="course" type="button" class="btn" data-toggle="collapse" data-target="#openCourse1"><h3>כלים משפטיים</h3>&emsp;1 מבחן</button>
-				  <div id="openCourse1" class="openCourse collapse">
-					<p> מועד א, 16.5.18 &emsp;&emsp;&emsp;<a ref="#" class="exercise">לתרגול עצמי</a> |  <i class="fa fa-pencil"></i> <a ref="#" class="onlineTest">למבחן מקוון</a></p>
-					<p> מועד א, 16.5.18 &emsp;&emsp;&emsp;<a ref="#" class="exercise">לתרגול עצמי</a> |  <i class="fa fa-pencil"></i> <a ref="#" class="onlineTest">למבחן מקוון</a></p>
-				  </div>
-				</div>
-				
-				<div>
-				  <button id="course" type="button" class="btn" data-toggle="collapse" data-target="#openCourse2"><h3>אבטחת מידע ממוחשב</h3>&emsp;1 מבחן</button>
-				  <div id="openCourse2" class="openCourse collapse">
-					<p> מועד א, 16.5.18 &emsp;&emsp;&emsp;<a ref="#" class="exercise">לתרגול עצמי</a> |  <i class="fa fa-pencil"></i> <a ref="#" class="onlineTest">למבחן מקוון</a></p>
-					<p> מועד א, 16.5.18 &emsp;&emsp;&emsp;<a ref="#" class="exercise">לתרגול עצמי</a> |  <i class="fa fa-pencil"></i> <a ref="#" class="onlineTest">למבחן מקוון</a></p>
-				  </div>
-				</div>
-				
-				<div>
-				  <button id="course" type="button" class="btn" data-toggle="collapse" data-target="#openCourse3"><h3>ניהול איכות תוכנה</h3>&emsp;1 מבחן</button>
-				  <div id="openCourse3" class="openCourse collapse">
-					<p> מועד א, 16.5.18 &emsp;&emsp;&emsp;<a ref="#" class="exercise">לתרגול עצמי</a> |  <i class="fa fa-pencil"></i> <a ref="#" class="onlineTest">למבחן מקוון</a></p>
-					<p> מועד א, 16.5.18 &emsp;&emsp;&emsp;<a ref="#" class="exercise">לתרגול עצמי</a> |  <i class="fa fa-pencil"></i> <a ref="#" class="onlineTest">למבחן מקוון</a></p>
-				  </div>
-				</div>
-				
-			</div>
-		</div>
-	
-	</main>
+<?php header('Content-Type: text/html; charset=utf-8'); 
+
+   ########## MySql details  #############
+    $db_username = "root"; //Database Username
+    $db_password = "Fss2d%^4D"; //Database Password
+    $host_name = "localhost"; //Mysql Hostname
+    $db_name = 'ishuffle'; //Database Name
+
+    // connect to database
+    $mysqli = new mysqli($host_name, $db_username, $db_password, $db_name);
+    if ($mysqli->connect_error) {
+        die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
+    }
+$mysqli->set_charset("utf8");
+       
+$email = $_SESSION['email'];
+
+//$result = $mysqli->query("SELECT COUNT(user_email) as coursecount FROM users_in_courses WHERE user_email='$email'");            
+//$course_count = $result->fetch_object()->coursecount; //will return the amount of courses per user
+
+$result = $mysqli->query("SELECT course_name,course_id FROM users_in_courses WHERE user_email='$email'");
+                 
+if ($result->num_rows>0){
+    $i = 1;
+    while($row=$result->fetch_assoc()){
+        $course_id = $row['course_id'];
+        $course_name = $row['course_name'];
+        $tests_of_course = $mysqli->query("SELECT * FROM tests WHERE course_id='$course_id'");
+        $num_of_tests = $tests_of_course->num_rows;
+        echo '<div><button id="course" type="button" class="btn" data-toggle="collapse" data-target="#openCourse'.$i.'"><h3>'.$course_name.'</h3>&emsp;'.$num_of_tests.' מבחן</button>';
+        echo '<div id="openCourse'.$i.'" class="openCourse collapse">';
+        while($row=$tests_of_course->fetch_assoc()){
+            echo '<p>מועד '.$row['moed'].', סמסטר '.$row['semester'].', '.$row['year'];
+            echo '&emsp;&emsp;&emsp;<a href="includes/onlineTest.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="exercise">לתרגול עצמי</a> |  ';
+            echo '<i class="fa fa-pencil"></i> <a href="includes/onlineTest.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="onlineTest">למבחן מקוון</a>';
+            echo '</p>';
+        }
+        echo '</div></div>';
+        $i++;
+    }   
+    echo '</div></div></main>';
+}
+else{
+    echo "<h4>עדיין לא העלאת מבחנים לאתר.</h4>";
+}             
+     
+exit();
+?>
+			
 
 	<!-- Footer -->
 
