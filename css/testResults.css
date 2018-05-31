@@ -1,0 +1,81 @@
+.ul{
+    padding-right:20px;
+    list-style-type: circle;
+}
+
+li{
+    padding-bottom: 10px;
+    font-size: 16px;
+}
+
+li p{
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+#correct{
+     list-style-image: url('../pic/correct.png');
+}
+
+#wrong{
+     list-style-image: url('../pic/wrong.png');
+}
+
+.scrollDiv{
+    height: 80%;
+    overflow-y: scroll;
+    padding-left: 1%;
+}
+
+.forScroll{height: 90%;}
+
+#correct-green{
+    background-color:rgba(48, 201, 48, 0.53);
+}
+
+#wrong-red{
+    background-color:rgba(204, 70, 70, 0.53);
+}
+
+#none{
+    background-color:transparent;
+}
+
+#statusImg{
+    padding-right: 5px;
+}
+
+#score{
+    display: inline-block;
+    background-color: #00000013;
+    padding: 20px 30px;
+    border-radius: 50%;
+    margin-top: 5%;
+    margin-right: 5%;
+    font-size: 40px;
+    text-align: center;
+}
+
+#leftAside{
+    margin-top: 4%;
+    float: right;
+    width: 20%;
+    padding-right: 3%;
+}
+
+#homeButton{
+    margin-top: 80%;
+}
+
+@media only screen and (max-width: 700px) {
+    #leftAside{
+        width: 100%;
+        text-align: center;
+       
+    }
+    
+    #score{
+        margin: 5% auto;
+    }
+    
+}

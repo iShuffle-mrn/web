@@ -1,0 +1,95 @@
+main{
+	background-image:url("../pic/background2.png");
+    background-size: 16%;
+}
+
+#groupBox{
+	border-radius: 5px;
+	background-color: white;
+	box-shadow: 10px 10px #808080;
+	width: 44%;
+	overflow: hidden;
+	text-align: right;
+	margin: 5%  auto 0;
+	text-align: right;
+	padding: 3%;
+}
+
+#groupBox h3{
+    display: inline-block;
+    margin-top: 0px;
+}
+
+#courseTitle{
+    background: linear-gradient(rgba(255,0,0,0), rgba(255,0,0,0), rgba(255, 204, 186, 0.8));
+    display: inline-block;
+    padding: 5px;
+}
+
+.profile{
+    display: inline-block;
+    width: 110px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.profile:first-child{
+    padding-right: 60px;
+}
+
+.profile p{
+    display: inline-block;
+}
+
+.profile img{
+    width: 50%;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    box-shadow: 3px 4px rgba(194,194,194,0.73);
+}
+
+#addprofile{
+    color: black;
+    text-decoration: none;
+}
+
+#addprofile:hover{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#addFriendForm{
+    text-align: center;
+    margin-top: 6%;
+
+}
+
+#email{
+    text-align: center;
+    direction: ltr;
+    width: 40%;
+}
+
+#homeButton{
+	float: left;
+	border-radius: 5px;
+    padding: 10px;
+    background-color: #ffde5f;
+    box-shadow: 5px 5px #dbba3b;
+	margin: 3% 0px 0px 15%;
+	border: none;
+	color: white;
+	font-size: 28px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#homeButton:hover{background-color: #eee1af}
+
+@media only screen and (max-width: 700px) {
+    #groupBox{
+        width: 100%;
+       
+    }
+    
+}

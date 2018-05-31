@@ -1,17 +1,31 @@
 main{
 	background-image:url("../pic/background2.png") ;
+    background-size: 16%;
 }
 
 #uploadForm{
 	border-radius: 5px;
 	background-color: white;
 	box-shadow: 10px 10px #808080;
-	width: 44%;
+	width: 42%;
 	overflow: hidden;
-	text-align: right;
-	margin: 5%  auto 0;
+	margin: 5% 30% 0 0;
 	text-align: left;
-	padding: 3% 3%;
+	padding: 2% 3% 4%;
+}
+
+#uploadForm ul{
+    padding-right: 0;
+}
+
+#uploadForm li{
+    float: right;
+    width: 50%;
+    text-align: center;
+}
+
+#uploadForm form{
+    margin-top: 7%;
 }
 
 lable{
@@ -48,23 +62,29 @@ input, select {background-color: #ffeeec; border: none; border-radius: 5px; font
 
 .clear{clear:both; text-align: center;}
 
-#formPic{ width: 78%;}
+#formPic{ 
+    margin-bottom: 4%;
+    width: 90%;
+    float: left;
+}
 
 #formPic:hover{ opacity: 0.5}
 
 .newSpan{
     color: black;
-    font-weight:bold;
+    background-color: #f5f5f5;
+    font-weight: bold;
     direction: ltr;
     padding: 2px 10px;
     display: inline-block;
-    border: 0.6px solid black;
-    border-radius:5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 3%;
 }
 
 .pointer {cursor: pointer;}
 
-#uploadButton{
+#buttons input{
 	margin: 0 auto;
 	background-color: #ff8c62 ;
 	color: white;
@@ -72,11 +92,18 @@ input, select {background-color: #ffeeec; border: none; border-radius: 5px; font
 	border-radius: 10px;
 	padding: 8px 15px;
     border: none;
+    cursor: pointer;
+}
+
+#filePreview{
+    width: 20%;
+    height: 60%;
+    margin: 5% 2% 0 0;
 }
 
 #uploadButton:hover{background-color: #ff6d38}
 	
-#homeButton{
+#anotherButton{
 	float: left;
 	border-radius: 5px;
     padding: 10px;
@@ -91,3 +118,37 @@ input, select {background-color: #ffeeec; border: none; border-radius: 5px; font
 }
 
 #homeButton:hover{background-color: #eee1af}
+
+.right{
+    float: right;
+}
+
+ /* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ffe891; 
+    border-radius: 10px;
+}
+
+
+@media only screen and (max-width: 700px) {
+    #uploadForm, #rightForm, #leftForm{
+        width: 100%;
+        margin: 4% 0;
+    }
+    #rightForm{margin-bottom: 0}
+    #leftForm{margin-top: 0}
+    
+    #filePreview{display: none;}
+    
+    
+}

@@ -1,8 +1,3 @@
-<!--
-
-2 rows question
-what if there ia an answer with two or 3 options?
--->
 <?php
 	session_start();
 //    ini_set('display_errors', 1);
@@ -10,7 +5,7 @@ what if there ia an answer with two or 3 options?
 //    error_reporting(E_ALL);
 
 	if (!isset($_SESSION['access_token'])) {
-		header('Location: glogin/login.php');
+		header('Location: ../glogin/login.php');
 		exit();
 	}
 ?>
@@ -37,6 +32,8 @@ what if there ia an answer with two or 3 options?
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="node_modules\easytimer\dist\easytimer.min.js"></script>
+    <script type="text/javascript" src="../js/test.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
 </head>
 <body onload="questionBar()">
@@ -45,7 +42,7 @@ what if there ia an answer with two or 3 options?
 
 	<!-- Header -->
 	<header>
-		<img id="logo" src="../pic/logo.png">
+		<a href="../index.php"><img id="logo" src="../pic/logo.png"></a>
 		<p>סיוע בלמידה למבחנים רב- ברירתיים</p>
 		<img id="tape" src="../pic/tape.png">
         <div id="welcome">
@@ -59,230 +56,185 @@ what if there ia an answer with two or 3 options?
                 }
             ?>
         </div>
+        <a id="back" href="../index.php"><i class="fa fa-mail-reply"></i> בחזרה למסך הראשי</a>
 	</header>
 
 	<!-- Main -->
 	<main>
         
     <?php
-    $test_id= $_GET['test_id'];
-    $course_name= $_GET['course_name'];
+        require_once "connectDB.php";
+        $test_id= $_GET['test_id'];
+        $course_name= $_GET['course_name'];
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "Fss2d%^4D";
-    $dbname = "ishuffle";
-
-    //create connection
-    $conn= new mysqli($servername,$username,$password,$dbname);
-    //check connection
-    if($conn->connect_error){
-        die("Connection failed: ". $conn->connect_error);
-    }
-    
-    $conn->set_charset("utf8");
-                 
-    $sql = "SELECT * FROM tests WHERE test_id='$test_id'";   
-    $result = $conn->query($sql);
-    while($row = $result->fetch_assoc()) {
-        $year = $row['year'];
-        $moed = $row['moed'];
-        $semester = $row['semester'];
-        $numOfQuestions = $row['numOfQuestions'];
-        $numOfAnswers = $row['numOfAnswers'];
-        $test_directory = $row['test_directory'];
-    }
+        $sql = "SELECT * FROM tests WHERE test_id='$test_id'";   
+        $result = $mysqli->query($sql);
+        while($row = $result->fetch_assoc()) {
+            $year = $row['year'];
+            $moed = $row['moed'];
+            $semester = $row['semester'];
+            $test_directory = $row['test_directory'];
+        }
         
         // Read JSON file
          $json = file_get_contents($test_directory);
 
         //Decode JSON
          $json_data = json_decode($json,true);
-    
 
-		echo '<div id="aside"><h1>מצב מבחן</h1>';
-            echo '<h5>'.$course_name.'</h5>';
-            echo '<h5>מועד '. $moed.', סמסטר '.$semester.', '.$year.'</h5>';
+         //checking how many questions and answers in the test
+
+         $search="question";
+         $numOfQuestions = 0;
+         foreach($json_data as $key=> $value){
+             if(strstr($key,$search)){
+                 $numOfQuestions = $numOfQuestions+1;
+                }
+         }
+
+        $search="answer1_";
+        $numOfAnswers = 0;
+        foreach($json_data as $key=> $value){
+            if(strstr($key,$search)){
+                $numOfAnswers = $numOfAnswers+1;
+            }
+        }
         
-            echo '<h4>השאלות:</h4>';
-            echo '<div id="qNumbers">';
-     
-            echo '</div></div>';
-        
-        echo '<div id="testForm">';
-			echo '<form id=FormTest action="post">';
-
-
-                    $question=1;
-                    $randomNum=randomizer();
-                    $temp=$json_data['answer'.$question.'_0'][0]; //keeps answer a in temp
-                    $json_data['answer'.$question.'_0'][0]=$json_data['answer'.$question.'_'.$randomNum][0];
-                    $json_data['answer'.$question.'_'.$randomNum][0]= $temp;
-
-                
-                echo "<div id='question".$question."'><h2>שאלה מס' ".$question."</h2><h4><label for='question".$question."'>".$json_data['question'.$question][1]."</label></h4><div id='answers".$question."'>";
-                    for($answer=0;$answer<$numOfAnswers;$answer++){
-                        echo "<p><input name='question".$question."' type='radio' id='answer".$question."_".$answer."' value='1'>".$json_data['answer'.$question.'_'.$answer][0]."</p>";
-                    }
-                echo "</div>";
-                echo "</div>";
-                    
-
-                    for($question=2;$question<=$numOfQuestions;$question++){
-                         $randomNum2=randomizer();
-                        $temp2=$json_data['answer'.$question.'_0'][0];
-                        $json_data['answer'.$question.'_0'][0]=$json_data['answer'.$question.'_'.$randomNum2][0];
-                        $json_data['answer'.$question.'_'.$randomNum2][0]=$temp2;
-
-                        
-                        echo "<div id='question".$question."' style='display:none'><h2>שאלה מס' ".$question."</h2><h4><label for='question".$question."'>".$json_data['question'.$question][1]."</label></h4><div id='answers".$question."'style='display:none'>";
-                        for($answer=0;$answer<$numOfAnswers;$answer++){
-                        echo "<p><input name='question".$question."'type='radio' id='answer".$question."_".$answer."'value='1'>".$json_data['answer'.$question.'_'.$answer][0]."</p>";
-                        }
-                        echo "</div>";
-                         echo "</div>";
-                    } 
-                
-                    function randomizer() {
-                        //change it to the number of answers
-                        $x=rand(0,3);
-                        return $x;
-                    }
-                
-                
-
-                echo '<a id="next" href="#" onclick="next()"><i class="fa fa-angle-left"></i></a>';
-                echo '<a id="prev" href="#" onclick="prev()" style="display:none"><i class="fa fa-angle-right"></i></a>';
-                
-            echo '</form></div>';
         ?>
-        <div>
-            <div id="countdownExample">
-                <div class="values"></div>
+    
+        <div id="aside">
+            <h1>מצב מבחן</h1>
+            <p><b>מבחן בקורס: </b><?php echo $course_name ?></p>
+            <p>מועד <?php echo $moed ?>', סמסטר <?php echo $semester ?>', <?php echo $year ?></p>
+
+            <h4><b>השאלות:</b></h4>
+            <div id="qNumbers"></div>
+        </div>
+		
+        
+        <div id="testForm">
+			<form id="FormTest" method="post" action="testResults.php?test_id=<?php echo $test_id ?>&course_name=<?php echo $course_name ?>">
+                <input type="hidden" name="numOfQuestions" value="<?php echo $numOfQuestions ?>">
+                <input type="hidden" name="numOfAnswers" value="<?php echo $numOfAnswers ?>">
+                    
+        <?php
+            for($question=1;$question<=$numOfQuestions;$question++){
+                 if($json_data['flag'.$question][0]!='true'){
+                    $randomNum=randomizer($numOfAnswers);
+                    ${"correctAnswer".$question}=$randomNum;
+                    echo "<input type='hidden' name='correctAnswer".$question."' value=".$randomNum.">";
+                    $temp2=$json_data['answer'.$question.'_0'][0];
+                    $json_data['answer'.$question.'_0'][0]=$json_data['answer'.$question.'_'.$randomNum][0];
+                    $json_data['answer'.$question.'_'.$randomNum][0]=$temp2;
+                }
+                else{
+                      $randomNum=0;
+                }
+
+                $size=sizeof($json_data['question'.$question]);
+
+                if ($question == 1){
+                    echo "<div id='question".$question."' dir='rtl'>";
+                }
+                else{
+                    echo "<div id='question".$question."' style='display:none' dir='rtl'>";
+                }
+
+                echo "<h2 class='question'>שאלה מס' ".$question."</h2><h4><label for='question".$question."' dir='rtl'>";
+                for($i=1;$i<=$size;$i++){
+                    if (strpos($json_data['question'.$question][$i], '\\') !== false)
+                        $json_data['question'.$question][$i]=str_replace('\\','',$json_data['question'.$question][$i]);
+                     echo $json_data['question'.$question][$i];
+                    echo " ";
+                }
+
+                if ($question == 1){
+                    echo "</label></h4><div id='answers".$question."'>";
+                }
+
+                else{
+                    echo "</label></h4><div id='answers".$question."' style='display:none'>";
+
+                }
+
+                for($answer=0;$answer<$numOfAnswers;$answer++){
+                    echo "<p><label style='font-weight: normal;'><input type='radio' name='question".$question."' id='answer".$question."_".$answer."' value=".$answer.">";
+                    for($j=0;$j<=sizeof($json_data['answer'.$question.'_'.$answer]);$j++){
+                        if (strpos($json_data['answer'.$question.'_'.$answer][$j], '\\') !== false)
+                            $json_data['answer'.$question.'_'.$answer][$j]=str_replace('\\','',$json_data['answer'.$question.'_'.$answer][$j]);
+                        echo $json_data['answer'.$question.'_'.$answer][$j];
+                        echo " ";
+                    }
+                        echo "</label></p>";
+                }
+                echo "</div>";
+                echo "</div>";
+            } 
+
+            function randomizer($numOfAnswers) {
+                //change it to the number of answers
+                $x=rand(0,$numOfAnswers-1);
+                return $x;
+            }
+
+        ?>
+                
+           </form>  
+        
+           <a id="next" href="#" onclick="next()"><i class="fa fa-angle-left"></i></a>
+           <a id="prev" href="#" onclick="prev()" style="display:none"><i class="fa fa-angle-right"></i></a>
+                
+        </div>
+         
+        <div id="leftAside">
+            <button id="startTimer" onClick="startTimer()"><img src="../pic/timer.png"><br>הפעל טיימר</button>
+            <div id="clockElements">
+                <div id="countdownExample">
+                    <div class="values"></div>
+                </div>
+                <br><p id="testTime"></p>
             </div>
-            <img id="clock" src="../pic/stopwatch.png">
-            <a href="../index.php" id="homeButton">למסך הראשי</a>
+            
+            <input id="finishButton" name="submit" type="submit" form="FormTest" value="סיים מבחן">
         </div>
 		
 	</main>
     <script>
-        var numOfQuestions=20;
-        var curr=1;
-        var question;
-        function next(){
-            checked(curr);
-            document.getElementById('question'+curr).setAttribute('style','display:none');
-            document.getElementById('answers'+curr).setAttribute('style','display:none');
-            curr++;
-            document.getElementById('question'+curr).setAttribute('style','display:block');
-            document.getElementById('answers'+curr).setAttribute('style','display:block');
-            document.getElementById('prev').setAttribute('style','display:block');
-            if(curr==numOfQuestions){
-                document.getElementById('next').setAttribute('style','display:none');
-                document.getElementById('done').setAttribute('style','display:block');
-            }
-            if(curr!=numOfQuestions){
-                document.getElementById('done').setAttribute('style','display:none');
-            }
-            checked(curr);
-            
-            
-        }
+        var numOfQuestions= <?php echo $numOfQuestions ?>;
         
-        
-        function prev(){
-            checked(curr);
-            document.getElementById('question'+curr).setAttribute('style','display:none');
-            document.getElementById('answers'+curr).setAttribute('style','display:none');
-            curr--;
-            document.getElementById('question'+curr).setAttribute('style','display:block');
-            document.getElementById('answers'+curr).setAttribute('style','display:block');
-            if(curr==1){
-                document.getElementById('prev').setAttribute('style','display:none');
-                document.getElementById('next').setAttribute('style','display:block');
-            }
-            if(curr!=numOfQuestions){
-                document.getElementById('next').setAttribute('style','display:block');
-                document.getElementById('done').setAttribute('style','display:none');
-            }
-            
-         checked(curr);   
-        }
-    
+        function startTimer(){
+            swal("הזן את אורך המבחן בדקות:", {
+              content: "input",
+              button: "התחל!",
+            })
+            .then((minutes) => {
+                if(minutes > 0){
+                    swal("המבחן מתחיל", "","success",);
 
-                    function questionBar(){
-                    question=1;
-                    for(var i=0;i<numOfQuestions/4;i++){
-                        var div=document.createElement('div');
-                        div.setAttribute('class','qRow');
-                        div.setAttribute('id','qRow'+i);
-                        document.getElementById('qNumbers').appendChild(div);
-                        for(var j=1;j<=4;j++){
-                            var a=document.createElement('a');
-                            a.setAttribute('href','#');
-                            a.setAttribute('class','qNum');
-                            a.innerHTML=question;
-                            a.setAttribute('id','qNum'+question);
-                            a.setAttribute('onclick','goToQuestion(this)');
-                            
-                            document.getElementById('qRow'+i).appendChild(a);
-                            question++;
-                        }
+                    var timer = new Timer();
+                    document.getElementById("startTimer").style.display="none";
+                    document.getElementById("clockElements").style.display="block";
+                    if ( $(window).width() > 700) {  
+                        document.getElementById("finishButton").style.margin="65% auto 0";
                     }
-                    }
-        
-        function goToQuestion(question){
-            checked(curr);
-            var x=question.innerHTML;
-            document.getElementById('question'+curr).setAttribute('style','display:none');
-            document.getElementById('answers'+curr).setAttribute('style','display:none');
-            curr=x;
-            document.getElementById('question'+curr).setAttribute('style','display:block');
-            document.getElementById('answers'+curr).setAttribute('style','display:block');
-            
-            document.getElementById('prev').setAttribute('style','display:block');
-            document.getElementById('next').setAttribute('style','display:block');
-            document.getElementById('done').setAttribute('style','display:none');
-            
-        
-            if(curr==1){
-                document.getElementById('prev').setAttribute('style','display:block');
-            }
-            if(curr!=numOfQuestions){
-                document.getElementById('next').setAttribute('style','display:block');
-                document.getElementById('done').setAttribute('style','display:none');
-                
-            }
-            if(curr==numOfQuestions){
-                document.getElementById('next').setAttribute('style','display:none');
-                document.getElementById('done').setAttribute('style','display:block');
-                
-            }
-            checked(curr);
+                    document.getElementById("testTime").innerHTML="מתוך "+minutes+" דקות למבחן.";
+                    timer.start({countdown: true, startValues: {seconds: minutes*60}});
+                    $('#countdownExample .values').html(timer.getTimeValues().toString());
+                    timer.addEventListener('secondsUpdated', function (e) {
+                        $('#countdownExample .values').html(timer.getTimeValues().toString());
+                    });
+                    timer.addEventListener('targetAchieved', function (e) {
+                        $('#countdownExample .values').html('המבחן הסתיים');
+                    });
+                }
+                else{
+                    swal("המספר אינו תקין", "","error",);
+                }
+            });
+                        
         }
         
-        function checked(x){
-            
-            if(document.querySelector("input[name='question"+x+"']:checked") != null) {
-               document.getElementById('qNum'+x).style.backgroundColor="#b6f3e8";
-            }
 
-
-        }
-  
-    var timer = new Timer();
-    timer.start({countdown: true, startValues: {seconds: 1000}});
-    $('#countdownExample .values').html(timer.getTimeValues().toString());
-    timer.addEventListener('secondsUpdated', function (e) {
-        $('#countdownExample .values').html(timer.getTimeValues().toString());
-    });
-    timer.addEventListener('targetAchieved', function (e) {
-        $('#countdownExample .values').html('KABOOM!!');
-    });
-        
-        
-        
-    
     </script>
 
 </body>

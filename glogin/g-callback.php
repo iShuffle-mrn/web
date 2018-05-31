@@ -1,4 +1,4 @@
-<?php
+<?php header('Content-Type: text/html; charset=utf-8');
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -41,16 +41,35 @@
     if ($mysqli->connect_error) {
         die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
     }
+	$mysqli->set_charset("utf8");
+    echo $user->name;
+    echo $user->email;
+    echo $user->link;
+    echo $user->picture;
+
+	echo $user->name'<br>';
+	echo $user->email.'<br>';
+	echo $user->picture;
+
 
     //check if user exist in database using COUNT
     $result = $mysqli->query("SELECT COUNT(google_email) as usercount FROM google_users WHERE google_email='$user->email'");
     $user_count = $result->fetch_object()->usercount; //will return 0 if user doesn't exist
 
     if($user_count == 0){ //if user not exist
-        $statement = $mysqli->prepare("INSERT INTO google_users (google_name, google_email, google_link, google_picture_link) VALUES (?,?,?,?)");
-        $statement->bind_param('ssss',  $user->name, $user->email, $user->link, $user->picture);
-        $statement->execute();
-        echo $mysqli->error;
+        if(is_null($user->picture)){
+            $statement = $mysqli->prepare("INSERT INTO google_users (google_name, google_email, google_link) VALUES (?,?,?)");
+            $statement->bind_param('ssss',  $user->name, $user->email, $user->link);
+            $statement->execute();
+            echo $mysqli->error;
+        }
+        
+        else{
+            $statement = $mysqli->prepare("INSERT INTO google_users (google_name, google_email, google_link, google_picture_link) VALUES (?,?,?,?)");
+            $statement->bind_param('ssss',  $user->name, $user->email, $user->link, $user->picture);
+            $statement->execute();
+            echo $mysqli->error;
+        }
     }
 
 

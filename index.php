@@ -5,6 +5,9 @@
 		header('Location: glogin/login.php');
 		exit();
 	}
+//    ini_set('display_errors', 1);
+//    ini_set('display_startup_errors', 1);
+//    error_reporting(E_ALL);
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +32,7 @@
 	<!-- JS+JQ scripts -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 
@@ -37,7 +40,7 @@
 
 	<!-- Header -->
 	<header>
-		<img id="logo" src="pic/logo.png">
+		<a href="index.php"><img id="logo" src="../pic/logo.png"></a>
 		<p>סיוע בלמידה למבחנים רב- ברירתיים</p>
 		<img id="tape" src="pic/tape.png">
         <div id="welcome">
@@ -52,73 +55,108 @@
             ?>
         </div>
 	</header>
+    <?php
+        if (isset($_GET['success'])){
+            
+            if($_GET['success'] == 0){
+                echo '<script type="text/javascript">swal("המבחן הועלה בהצלחה", "", "success");</script>';
+            }
+            else{
+                echo '<script type="text/javascript">swal("קרתה שגיאה,","אנא נסה להעלות את המבחן ידנית", "error");</script>';
+            }
+        }
+    
+    ?>
 	
-
 	<!-- Main -->
 	<main>
-		<div id="uploadTest">
-			<a href="includes/upload.php" id="uploadLink"><i class="fa fa-plus"></i> הוסף מבחן חדש</a>
-			<img src="pic/exam.png">
-		</div>
+        <a id="uploadTest" href="includes/pdfUpload.php" id="uploadLink"><i class="fa fa-plus"></i> הוסף מבחן חדש<img src="pic/exam.png"></a>
 		
 		<div id="content">
 			
 			<h2 class="myCourses">הקורסים שלי:</h2>
-            <div id="courses">
+            <?php header('Content-Type: text/html; charset=utf-8'); 
+
+            require_once "includes/connectDB.php";
+            $email = $_SESSION['email'];
+
+            // check for course invites            
+            $invitations = $mysqli->query("SELECT * FROM invitations WHERE toUser='$email' ORDER BY course_id DESC;");            
+            if ($invitations->num_rows>0){
+                echo '<div id="invites">';
+                while($row=$invitations->fetch_assoc()){
+                    $fromUser = $row['fromUser'];
+                    $course_id = $row['course_id'];
+                    $checkCourseName = $mysqli->query("SELECT course_name FROM users_in_courses WHERE course_id='$course_id';"); 
+                    $courseName = $checkCourseName->fetch_assoc();
+                    $courseName = $courseName['course_name'];
+                    $checkFromUserName = $mysqli->query("SELECT google_name FROM google_users WHERE google_email='$fromUser';"); 
+                    $fromUserName = $checkFromUserName->fetch_assoc();
+                    $fromUserName = $fromUserName['google_name'];
+                    echo '<i class="fa fa-user-plus"></i><h4> הוזמנת ע"י '.$fromUserName.' לקורס '.$courseName.'. &emsp;<a href="includes/addToGroup.php?course_id='.$course_id.'&isAccepted=0">אשר</a> | <a href="includes/addToGroup.php?course_id='.$course_id.'&isAccepted=1">דחה</a></h4><br>';
+                }
+
+                echo '</div>';
+            }
+
+            echo '<div id="courses">';
                 
-<?php header('Content-Type: text/html; charset=utf-8'); 
+            $result = $mysqli->query("SELECT course_name,course_id FROM users_in_courses WHERE user_email='$email' ORDER BY course_id DESC;");
 
-   ########## MySql details  #############
-    $db_username = "root"; //Database Username
-    $db_password = "Fss2d%^4D"; //Database Password
-    $host_name = "localhost"; //Mysql Hostname
-    $db_name = 'ishuffle'; //Database Name
+        if ($result->num_rows>0){
+            $i = 1;
+            while($row=$result->fetch_assoc()){
+                $course_id = $row['course_id'];
+                $course_name = $row['course_name'];
+                $tests_of_course = $mysqli->query("SELECT * FROM tests WHERE course_id='$course_id'");
+                $num_of_tests = $tests_of_course->num_rows;
+                echo '<div><button id="course" type="button" class="btn" data-toggle="collapse" data-target="#openCourse'.$i.'"><h3>'.$course_name.'</h3><span>&emsp;'.$num_of_tests;
+                if ($num_of_tests == 1){
+                    echo ' מבחן</span>';
+                }
+                else{
+                    echo ' מבחנים</span>';
+                }
 
-    // connect to database
-    $mysqli = new mysqli($host_name, $db_username, $db_password, $db_name);
-    if ($mysqli->connect_error) {
-        die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
-    }
-$mysqli->set_charset("utf8");
-       
-$email = $_SESSION['email'];
+//                echo "<a class='removeMe' href='includes/removeMe.php?course_id=$course_id'
+//                onclick=\"return confirm('שים לב: בלחיצה על אישור תצא מהקורס לצמיתות.');\"><img src='pic/cancel.png' title='צא מקורס זה'></a>";
 
-//$result = $mysqli->query("SELECT COUNT(user_email) as coursecount FROM users_in_courses WHERE user_email='$email'");            
-//$course_count = $result->fetch_object()->coursecount; //will return the amount of courses per user
+                echo "<a class='removeMe' 
+                onclick=\"swal({  title: 'האם אתה בטוח?',  text: 'בלחיצה על אישור תצא מהקורס לצמיתות',  icon: 'warning',  buttons: true, dangerMode: true,  buttons: ['השאר', 'צא'], }) .then((willDelete) => { if (willDelete) { swal('יצאת מהקורס בהצלחה', { icon: 'success', }); window.location.href = 'includes/removeMe.php?course_id=$course_id';  } });\"><img src='pic/cancel.png' title='צא מקורס זה'></a>";
 
-$result = $mysqli->query("SELECT course_name,course_id FROM users_in_courses WHERE user_email='$email'");
-                 
-if ($result->num_rows>0){
-    $i = 1;
-    while($row=$result->fetch_assoc()){
-        $course_id = $row['course_id'];
-        $course_name = $row['course_name'];
-        $tests_of_course = $mysqli->query("SELECT * FROM tests WHERE course_id='$course_id'");
-        $num_of_tests = $tests_of_course->num_rows;
-        echo '<div><button id="course" type="button" class="btn" data-toggle="collapse" data-target="#openCourse'.$i.'"><h3>'.$course_name.'</h3>&emsp;'.$num_of_tests.' מבחן</button>';
-        echo '<div id="openCourse'.$i.'" class="openCourse collapse">';
-        while($row=$tests_of_course->fetch_assoc()){
-            echo '<p>מועד '.$row['moed'].', סמסטר '.$row['semester'].', '.$row['year'];
-            echo '&emsp;&emsp;&emsp;<a href="includes/onlineTest.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="exercise">לתרגול עצמי</a> |  ';
-            echo '<i class="fa fa-pencil"></i> <a href="includes/onlineTest.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="onlineTest">למבחן מקוון</a>';
-            echo '</p>';
+                $people_in_course = $mysqli->query("SELECT * FROM users_in_courses WHERE course_id='$course_id'");
+                $is_a_group = $people_in_course->num_rows;
+                if ($is_a_group > 1){
+                    echo  '<a class="group extra" href="includes/courseGroup.php?course_id='.$course_id.'&course_name='.$course_name.'">'.$is_a_group.' חברים</a><img class="groupPic" src="pic/group.png"></button>';
+                }
+                else{
+                    echo '<a class="group" href="includes/courseGroup.php?course_id='.$course_id.'&course_name='.$course_name.'">+ הוסף חברים</a></button>';
+                }
+
+                echo '<div id="openCourse'.$i.'" class="openCourse collapse">';
+                
+                while($row=$tests_of_course->fetch_assoc()){
+                    echo '<p>מועד '.$row['moed'].', סמסטר '.$row['semester'].', '.$row['year'];
+                    echo '<span class="courseLinks"><a href="includes/exercise.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="exercise">לתרגול עצמי</a> | <i class="fa fa-pencil"></i> <a href="includes/onlineTest.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="onlineTest">למבחן מקוון</a></span>';
+                    echo '</p>';
+                }
+
+                echo '</div>';
+                $i++;
+            }   
         }
-        echo '</div></div>';
-        $i++;
-    }   
-    echo '</div></div></main>';
-}
-else{
-    echo "<h4>עדיין לא העלאת מבחנים לאתר.</h4>";
-}             
-     
-exit();
+
+        else{
+            echo "<h4>עדיין לא העלאת מבחנים לאתר.</h4>";
+        }             
+    echo '</div>';
+    exit();
 ?>
-			
+          
+	</div>		
+</main>
 
-	<!-- Footer -->
-
-
+    
 
 </body>
 </html>

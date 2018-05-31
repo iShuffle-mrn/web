@@ -1,5 +1,6 @@
 main{
 	background-image:url("../pic/background1.png") ;
+    background-size: 9%;
 }
 
 #uploadTest{
@@ -8,36 +9,55 @@ main{
 	float: left;
 	text-align: center;
 	border-radius: 5px;
-    padding: 10px;
+    padding: 2% 3% 3%;
 	background: rgba(255, 232, 145, 0.6);
     box-shadow: 5px 5px #dbba3b;
-	margin: 5% 0px 0px 5%;
-}
-
-#uploadLink{
-	color: black;
+	margin: 5% 0px 0px 10%;
+    color: black;
 	font-size: 30px;
-	margin-bottom: 20px;
-	display: inline-block;
 }
 
-#uploadLink:hover{text-decoration: none; font-weight: bold;}
+#uploadTest:hover{text-decoration: none; font-weight: bold;}
 
 #uploadTest img{
-	width: 80%;
+    margin-top: 20px;
 }
 
 #uploadTest img:hover{
 	opacity:0.9;
 }
 
+#invites{
+    width: 90%;
+}
+
+#invites h4{
+    background-color: #dad6d669;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 3px 10px;
+    margin-right: 5px;
+}
+
+#invites a:hover{
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .myCourses{
 	margin-top:0px;
+    background: linear-gradient(rgba(255,0,0,0), rgba(255,0,0,0), rgba(255, 232, 145, 0.7));
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.courseLinks{
+    margin-right: 5em;
 }
 
 #content{
-	width: 60%;
-	height: 83%;
+	width: 55%;
+	height: 74%;
 	text-align: right;
 	float: left;
 	margin: 3% 0px 0px 0px;
@@ -46,7 +66,7 @@ main{
 
 #courses{
 	overflow-y: scroll;
-	height: 80%;
+	height: 97%;
 	direction: ltr;
 	padding-right: 15px;
 }
@@ -55,10 +75,53 @@ main{
 	border-radius: 5px;
 	background-color: #3d9be9;
 	box-shadow: 5px 5px #1e4d74;
-	width: 85%;
+	width: 90%;
 	text-align: right;
 	color: white;
 	margin-top: 15px;
+    outline: none;
+}
+
+.nogroup{
+    float: left;
+	color: white;
+    margin-top: 1%;
+}
+
+.nogroup:hover{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.group{
+    float: left;
+    background-color: rgba(255,255,255,.15);
+	color: white;
+	border-radius: 13px;
+	padding: 2px 15px;
+    border: none;
+    margin-top: 1%;
+}
+
+.extra{
+    padding-right: 20px;
+}
+
+.group:hover{
+    
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background-color: #3c5976c4;
+}
+
+.groupPic{
+    width: 4%;
+    float: left;
+    position: relative;
+    right: 14px;
+    margin-top: 1%;
 }
 
 #course h3{display: inline}
@@ -67,16 +130,41 @@ main{
 	border-radius: 5px;
 	background-color: white;
 	box-shadow: 5px 5px #808080;
-	width: 85%;
-	text-align: right;
+	width: 90%;
+    font-size: 17px;
+	text-align: center;
 	padding: 10px;
 	padding-top: 20px;
 	margin-bottom: 5px;
+    overflow: hidden;
 }
 
 .exercise, .exercise:hover {color: #c18a82}
 
 .onlineTest, .onlineTest:hover {color: #0b92bc}	
+
+.removeMe img{
+    width: 45%;
+    margin-bottom: 5px;
+}
+
+.removeMe img:hover{
+    filter: drop-shadow(6px 5px 5px #000);
+}
+
+.removeMe{
+    float: left;
+    font-size: 12px;
+    display: inline-block;
+    text-align: center;
+    color: black;
+}
+
+.removeMe:hover{
+    color:red;
+    text-decoration: none;
+}
+
 .exercise, .onlineTest{text-decoration: none; font-weight: bold}
  
  /* width */
@@ -93,4 +181,35 @@ main{
 ::-webkit-scrollbar-thumb {
     background: #ffe891; 
     border-radius: 10px;
+}
+
+@media only screen and (max-width: 700px) {
+    #uploadTest, #content{
+        width: 100%;
+        margin: 1%;
+        padding-right: 4%;
+       
+    }
+        
+    #course h3{display: block; margin: 0 0 5px; text-align: center;}
+    
+    #uploadTest img{
+        width: 15%;
+        margin-top: 0px;
+    }
+    
+    .groupPic {
+        width: 8%;
+    }
+    
+    .courseLinks {
+        margin: 1em;
+        display: block;
+        border-bottom: 0.5px solid;
+    }
+    
+    #courses{
+        overflow-y: initial;
+    }
+    
 }
