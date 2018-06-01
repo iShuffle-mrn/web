@@ -61,8 +61,11 @@
             if($_GET['success'] == 0){
                 echo '<script type="text/javascript">swal("המבחן הועלה בהצלחה", "", "success");</script>';
             }
+            else if ($_GET['success'] == 1){
+                echo '<script type="text/javascript">swal("קרתה שגיאה","אנא נסה להעלות את המבחן ידנית", "error");</script>';
+            }
             else{
-                echo '<script type="text/javascript">swal("קרתה שגיאה,","אנא נסה להעלות את המבחן ידנית", "error");</script>';
+                echo '<script type="text/javascript">swal("אופס","העלאת את המבחן הזה כבר", "info");</script>';
             }
         }
     
