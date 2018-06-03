@@ -70,7 +70,7 @@
             <div id="friends">
                 <h5>החברים שלי:</h5>
                 <?php
-                    $sql = "SELECT * FROM users_in_courses WHERE course_id='$course_id'"; 
+                    $sql = "SELECT * FROM users_in_courses WHERE course_id='$user_email'"; 
                     $result = $mysqli->query($sql);
                 
                     while($row = $result->fetch_assoc()) {
@@ -84,25 +84,33 @@
                         echo '<div class="profile"><img src="'.$pic.'"><br><p>'.$name.'</p></div>';
                     }
                     ?>
-<!--                   <a href="" id="addprofile" class="profile"><img src="../pic/addfriend.png"><br>הוסף חבר</a>-->
             </div>
             
             <div id="addFriendForm">
                 <?php    
                     if(isset($_POST['addFriend'])){ //check if form was submitted
-                      $toEmail = $_POST['email']; //get email
-                      $fromEmail = $_SESSION['email'];
-                      $sql = "SELECT * FROM users_in_courses WHERE course_id='$course_id' AND user_email='$toEmail'"; 
-                      $result = $mysqli->query($sql);
+                        $toEmail = $_POST['email']; //get email
+                        $fromEmail = $_SESSION['email'];
+                        $sql = "SELECT * FROM google_users WHERE google_email='$user_email'"; 
+                        $isNew = $mysqli->query($sql);
+                                                
+                        $sql = "SELECT * FROM users_in_courses WHERE course_id='$course_id' AND user_email='$toEmail'"; 
+                        $result = $mysqli->query($sql);
                         
-                      if ($result->num_rows>0){
+                        if ($result->num_rows>0){
                           $message = "המשתמש ".$toEmail." כבר משוייך לקורס זה.";
-                      }
-                      else{
-                          $sql = "INSERT INTO invitations (course_id, fromUser, toUser) VALUES ($course_id, '$fromEmail', '$toEmail')"; 
-                          $result = $mysqli->query($sql);
-                          $message = "המשתמש ".$email." הוזמן בהצלחה!";
-                      }
+                        }
+                        else{
+                            $sql = "SELECT * FROM google_users WHERE google_email='$course_id' AND user_email='$toEmail'"; 
+                            $result = $mysqli->query($sql);
+                            
+                            $sql = "INSERT INTO invitations (course_id, fromUser, toUser) VALUES ($course_id, '$fromEmail', '$toEmail')"; 
+                            $result = $mysqli->query($sql);
+                            if ($isNew->num_rows == 0){
+                                $message = "המשתמש ".$toEmail." לא קיים במערכת, ההזמנה תופיע לו בעת התחברותו.";
+                            }
+                            $message = "המשתמש ".$email." הוזמן בהצלחה!";
+                        }
                       
                     }    
                 ?>
