@@ -72,7 +72,15 @@ if (!isset($_SESSION['access_token'])) {
     $semester = $_POST['semester'];
     $numOfQuestions=$_POST['numOfQuestions'];
     $numOfAnswers=$_POST['numOfAnswers'];
+    $user_email = $_SESSION["email"]; 
     
+    $sql = "SELECT * FROM tests WHERE year='$year' AND moed='$moed' and semester='$semester' and course_id= (SELECT course_id from users_in_courses WHERE user_email='$user_email' AND course_name='$course_name')";  
+    $result = $mysqli->query($sql);
+
+    if($result->num_rows > 0){
+        header('Location: ../index.php?success=2');
+    }
+        
 ?>
 
     <div id="aside">

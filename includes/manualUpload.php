@@ -85,8 +85,6 @@
 					<p><label>מס' תשובות לשאלה: <input type="number" name="numOfAnswers" min="2" max="5" required></label></p>
 				</div>
 				<div id="buttons" class="clear">
-<!--                    //as long as the json is not ready we don't want to insert the data to db-->
-<!--                    <p><a href="manualFileUpload.php" id="uploadButton" class="pointer" role="button" onclick="setData()">המשך להזנת מבחן</a></p>-->
 					<input type="submit" value="המשך להזנת המבחן" name="submit" onclick="setData()">
 				</div>
 			</form> 
