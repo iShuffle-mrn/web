@@ -70,7 +70,7 @@
             <div id="friends">
                 <h5>החברים שלי:</h5>
                 <?php
-                    $sql = "SELECT * FROM users_in_courses WHERE course_id='$user_email'"; 
+                    $sql = "SELECT * FROM users_in_courses WHERE course_id='$course_id'"; 
                     $result = $mysqli->query($sql);
                 
                     while($row = $result->fetch_assoc()) {
@@ -91,7 +91,8 @@
                     if(isset($_POST['addFriend'])){ //check if form was submitted
                         $toEmail = $_POST['email']; //get email
                         $fromEmail = $_SESSION['email'];
-                        $sql = "SELECT * FROM google_users WHERE google_email='$user_email'"; 
+                        
+                        $sql = "SELECT * FROM google_users WHERE google_email='$toEmail'"; 
                         $isNew = $mysqli->query($sql);
                                                 
                         $sql = "SELECT * FROM users_in_courses WHERE course_id='$course_id' AND user_email='$toEmail'"; 
@@ -107,9 +108,11 @@
                             $sql = "INSERT INTO invitations (course_id, fromUser, toUser) VALUES ($course_id, '$fromEmail', '$toEmail')"; 
                             $result = $mysqli->query($sql);
                             if ($isNew->num_rows == 0){
-                                $message = "המשתמש ".$toEmail." לא קיים במערכת, ההזמנה תופיע לו בעת התחברותו.";
+                                $message1 = "המשתמש ".$toEmail." לא קיים במערכת, ההזמנה תופיע לו בעת התחברותו.";
                             }
-                            $message = "המשתמש ".$email." הוזמן בהצלחה!";
+                            else{
+                                $message2 = "המשתמש ".$email." הוזמן בהצלחה!";
+                            }                            
                         }
                       
                     }    
@@ -118,7 +121,8 @@
                     <p><label for="email">הזמן חבר לקורס: </label>
                     <input id="email" type="email" name="email" placeholder="כתובת המייל של החבר" required autocomplete="on">
                     <input type="submit" name="addFriend" value="הוסף"></p>
-                    <?php echo $message; ?>
+                    <?php echo $message1; ?>
+                    <?php echo $message2; ?>
                 </form>
                 
             </div>
