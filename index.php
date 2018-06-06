@@ -121,8 +121,6 @@
                     echo ' מבחנים</span>';
                 }
 
-//                echo "<a class='removeMe' href='includes/removeMe.php?course_id=$course_id'
-//                onclick=\"return confirm('שים לב: בלחיצה על אישור תצא מהקורס לצמיתות.');\"><img src='pic/cancel.png' title='צא מקורס זה'></a>";
 
                 echo "<a class='removeMe' 
                 onclick=\"swal({  title: 'האם אתה בטוח?',  text: 'בלחיצה על אישור תצא מהקורס לצמיתות',  icon: 'warning',  buttons: true, dangerMode: true,  buttons: ['השאר', 'צא'], }) .then((willDelete) => { if (willDelete) { swal('יצאת מהקורס בהצלחה', { icon: 'success', }); window.location.href = 'includes/removeMe.php?course_id=$course_id';  } });\"><img src='pic/cancel.png' title='צא מקורס זה'></a>";
@@ -138,8 +136,14 @@
 
                 echo '<div id="openCourse'.$i.'" class="openCourse collapse">';
                 
+                
                 while($row=$tests_of_course->fetch_assoc()){
-                    echo '<p>מועד '.$row['moed'].', סמסטר '.$row['semester'].', '.$row['year'];
+                    $test_id = $row['test_id'];
+                    echo '<p>';
+                    if ($is_a_group == 1){
+                        echo "<span><a onclick=\"swal({  title: 'האם אתה בטוח?',  text: 'בלחיצה על אישור תמחק את המבחן לצמיתות',  icon: 'warning',  buttons: true, dangerMode: true,  buttons: ['ביטול', 'מחק'], }) .then((willDeleteTest) => { if (willDeleteTest) { swal('מחקת מבחן זה בהצלחה', { icon: 'success', }); window.location.href = 'includes/removeMe.php?course_id=$course_id&test_id=$test_id';  } });\"><img src='pic/removeTest.png' title='מחק מבחן' class='removeTest'></a></span>";
+                    }
+                    echo 'מועד '.$row['moed'].', סמסטר '.$row['semester'].', '.$row['year'];
                     echo '<span class="courseLinks"><a href="includes/exercise.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="exercise">לתרגול עצמי</a> | <i class="fa fa-pencil"></i> <a href="includes/onlineTest.php?test_id='.$row['test_id'].'&course_name='.$course_name.'" class="onlineTest">למבחן מקוון</a></span>';
                     echo '</p>';
                 }
