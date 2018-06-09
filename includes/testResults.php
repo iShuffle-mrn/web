@@ -120,7 +120,8 @@
             <div id="qNumbers">
             <?php
                 $question=1;
-                    for($i=0;$i<$numOfQuestions/sqrt($numOfQuestions);$i++){
+                if ($numOfQuestions <= 20){
+                    for($i=0;$i<sqrt($numOfQuestions);$i++){
                         echo '<div class="qRow" id="qRow'.$i.'">';
                         for($j=1;$j<=sqrt($numOfQuestions);$j++){
                             if (${"answerQuestion_".$question}==${"correctAnswer".$question}){
@@ -131,9 +132,34 @@
                             }
                             echo '<a href="#" class="qNum" id="qNum'.$question.'" onclick="goToQuestion(this)" style="background-color:'.$backgroundColor.'">'.$question.'</a>';
                             $question++;
+                            
+                            if ($question > $numOfQuestions){
+                                break;
+                            }
                         }
                         echo '</div>';
                     } 
+                }
+                else{
+                    for($i=0;$i<ceil(sqrt($numOfQuestions));$i++){
+                        echo '<div class="qRow" id="qRow'.$i.'">';
+                        for($j=1;$j<=5;$j++){
+                            if (${"answerQuestion_".$question}==${"correctAnswer".$question}){
+                                $backgroundColor='#9EE399';
+                            }
+                            else{
+                                $backgroundColor='#E79F9E';
+                            }
+                            echo '<a href="#" class="qNum" id="qNum'.$question.'" onclick="goToQuestion(this)" style="background-color:'.$backgroundColor.'">'.$question.'</a>';
+                            $question++;
+                            
+                            if ($question > $numOfQuestions){
+                                break;
+                            }
+                        }
+                        echo '</div>';   
+                    }
+                }
             ?>
             </div>
         </div>

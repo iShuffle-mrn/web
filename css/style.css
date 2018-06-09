@@ -168,6 +168,7 @@ main{
 .removeTest{
     width: 3%;
     margin-left: 3%;
+    cursor: pointer;
 }
 
 .exercise, .onlineTest{text-decoration: none; font-weight: bold}

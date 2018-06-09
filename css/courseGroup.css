@@ -7,12 +7,17 @@ main{
 	border-radius: 5px;
 	background-color: white;
 	box-shadow: 10px 10px #808080;
-	width: 44%;
+	width: 50%;
 	overflow: hidden;
 	text-align: right;
-	margin: 5%  auto 0;
+	margin: 3%  auto 0;
 	text-align: right;
 	padding: 3%;
+    height: 83%;
+}
+#friends{
+    height: 70%;
+    overflow-y: scroll;
 }
 
 #groupBox h3{
@@ -85,6 +90,22 @@ main{
 }
 
 #homeButton:hover{background-color: #eee1af}
+
+ /* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ffe891; 
+    border-radius: 10px;
+}
 
 @media only screen and (max-width: 700px) {
     #groupBox{
