@@ -121,9 +121,9 @@
             <?php
                 $question=1;
                 if ($numOfQuestions <= 20){
-                    for($i=0;$i<sqrt($numOfQuestions);$i++){
+                    for($i=1;$i<=sqrt($numOfQuestions);$i++){
                         echo '<div class="qRow" id="qRow'.$i.'">';
-                        for($j=1;$j<=sqrt($numOfQuestions);$j++){
+                        for($j=0;$j<sqrt($numOfQuestions);$j++){
                             if (${"answerQuestion_".$question}==${"correctAnswer".$question}){
                                 $backgroundColor='#9EE399';
                             }
