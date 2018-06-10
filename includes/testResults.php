@@ -169,9 +169,11 @@
         <?php
         
             for($question=1;$question<=$numOfQuestions;$question++){
-                $temp2=$json_data['answer'.$question.'_0'][0]; //keeps answer a in temp
-                $json_data['answer'.$question.'_0'][0]=$json_data['answer'.$question.'_'.${"correctAnswer".$question}][0];
-                $json_data['answer'.$question.'_'.${"correctAnswer".$question}][0]= $temp2;
+                if($json_data['flag'.$question][0]!='true'){
+                    $temp2=$json_data['answer'.$question.'_0'][0]; //keeps answer a in temp
+                    $json_data['answer'.$question.'_0'][0]=$json_data['answer'.$question.'_'.${"correctAnswer".$question}][0];
+                    $json_data['answer'.$question.'_'.${"correctAnswer".$question}][0]= $temp2;
+                }
                 $size=sizeof($json_data['question'.$question]);
 
                 if ($question == 1){
@@ -194,6 +196,13 @@
                 echo "</h2><div class='scrollDiv'>";
                 if (${"answerQuestion_".$question}==-1)
                     echo "<h5>לא בחרת תשובה בשאלה זו</h5>";
+                
+                $sql = "SELECT * FROM question_flags WHERE test_id='$test_id' and question='$question' and is_factor=1"; 
+                $otherResult = $mysqli->query($sql);
+                $otherResult->num_rows;
+                if ($otherResult->num_rows>0)
+                    echo "<mark><b>שים לב!</b>  $otherResult->num_rows מחברייך סימנו שאלה זו כשאלה שניתן עליה פקטור</mark>";
+
                 echo "<h4><label for='question".$question."' dir='rtl'>";
 
                     for($i=1;$i<=$size;$i++){
